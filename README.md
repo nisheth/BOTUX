@@ -1,4 +1,5 @@
 BOTUX
 =====
 
-BOTUX
+BOTUX : Bayesian OTU eXaminer
+
