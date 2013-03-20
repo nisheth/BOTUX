@@ -8,10 +8,10 @@ class Seq:
 			self.pe=0	#	is not paired end
 		length=len(seqstr)
 		if length>maxLength:
-			self.seqstr=seqstr[:maxLength]
+			self.seqstr=seqstr[:maxLength].upper()
 			self.len=maxLength
 		else:
-			self.seqstr=seqstr
+			self.seqstr=seqstr.upper()
 			self.len=length
 		self.freq=1
 		self.seqids=[]
@@ -29,10 +29,10 @@ class Seq:
 		else:
 			length2=len(seqstr2)
 			if length2>maxLength2:
-				self.seqstr2=seqstr2[:maxLength2]
+				self.seqstr2=seqstr2[:maxLength2].upper()
 				self.len2=maxLength2
 			else:
-				self.seqstr2=seqstr2
+				self.seqstr2=seqstr2.upper()
 				self.len2=length2
 			self.worddict2=dict()
 			for word in [seqstr[i:i+wordLength] for i in range(self.len2-wordLength+1)]:
