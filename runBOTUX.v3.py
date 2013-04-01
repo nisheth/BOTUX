@@ -40,20 +40,22 @@ def main():
 	
 	Author: 	Vishal N Koparde, Ph. D. 
 	Created:	130315
-	Modified:	130320""",
-	version="1.0")
+	Modified:	130330""",
+	version="3.0")
 	parser.add_argument('-fasta',help='input fasta file',dest='fasta',required=False,metavar="<in.fasta>")
 	parser.add_argument('-fastq',help='input fastq file(read1)',dest='fastq1',required=False,metavar="<read1.fastq>")
 	parser.add_argument('-2',help='input fastq file(read2)',dest='fastq2',required=False,metavar="<read2.fastq>")
 	parser.add_argument('-wl',help='word lenth (default 8)',dest='wl',required=False,metavar="<8>",type=int,default=8)
-	parser.add_argument('-otuFasta',help='output fasta file containing OTU seeds (default OTUs.fasta)',dest='otuFasta',required=False,metavar="<OTUs.fasta>")
+	parser.add_argument('-project',help='project name .. prefix used to name output files',dest='proj',required=True,metavar="<P1>")
 	parser.add_argument('-loadModel',help='load OTU model from python pickle',dest='inModel',required=False,metavar="<inModel.pkl>")
-	parser.add_argument('-saveModel',help='save OTU model as python pickle',dest='outModel',required=False,metavar="<outModel.pkl>")
-	parser.add_argument('-ptl',help='percentile trimming length',dest='ptl',required=False,metavar="<0.9>",default=0.9,type=float)
-	parser.add_argument('-pa',help='print detailed assignments',dest='prnDetailedAssignments',required=False,metavar="<OTU_assignments.txt>")
-	parser.add_argument('-pp',help='print profile',dest='prnProfile',required=False,metavar="<OTU_profiles.txt>")
-	parser.add_argument('-t',help='threshold score .. advanced usage',dest='thresholdScore',required=False,default=0.75,metavar="<0.75>",type=float)
+	parser.add_argument('-ptl',help='percentile trimming length',dest='ptl',required=False,metavar="<0.75>",default=0.75,type=float)
+	parser.add_argument('-t',help='threshold score .. advanced usage',dest='thresholdScore',required=False,default=0.65,metavar="<0.65>",type=float)
 	args=vars(parser.parse_args())
+
+        args['otuFasta']=args['proj']+"_OTUs.fasta"
+        args['pa']=args['proj']+"_assignments.txt"
+        args['pp']=args['proj']+"_profiles.txt"
+        args['saveModel']=args['proj']+"_model.pkl"
 	
 	fasta=0
 	fastq=0

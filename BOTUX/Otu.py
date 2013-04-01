@@ -40,7 +40,7 @@ class Otu:
 	if self.pe==1:
 	    for w,f in seqObj.worddict2.iteritems():
 		if w in self.worddict2:
-		    score2 += (s2 * f * 1.0 / self.sumOfAllFreq2)
+		    score2 += (self.worddict2[w] * f * 1.0 / self.sumOfAllFreq2)
         if score2 != 0: # to avoid divide by zero
             score2 = score2 * self.seedLen2 / seqObj.len2        
         return score,score2        
@@ -56,16 +56,21 @@ class Otu:
 	self.avgReadLen=self.totalReadLen*1.0/self.freq
 	self.avgReadLen2=self.totalReadLen2*1.0/self.freq
         for c,f in seqObj.worddict.iteritems():
-            if c in self.worddict:
-		x=f*seqObj.freq
+	    x=f*seqObj.freq
+	    self.sumOfAllFreq+=x
+            try:
                 self.worddict[c]+=x
-		self.sumOfAllFreq+=x
+            except KeyError:
+                self.worddict[c]=x
 	if self.pe==1:
 	    for c,f in seqObj.worddict2.iteritems():
-		if c in self.worddict2:
-		    x=f*seqObj.freq
+		x=f*seqObj.freq
+		self.sumOfAllFreq2+=x
+                try:
 		    self.worddict2[c]+=x
-		    self.sumOfAllFreq2+=x
+                except KeyError:
+		    self.worddict2[c]=x
+
     def __eq__(self,other):
         return self.seedLen == other.seedLen and self.seedLen2 == other.seedLen2 and self.freq == other.freq
     def __ne__(self,other):
