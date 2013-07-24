@@ -35,7 +35,7 @@ class Seq:
 				self.seqstr2=seqstr2.upper()
 				self.len2=length2
 			self.worddict2=dict()
-			for word in [seqstr[i:i+wordLength] for i in range(self.len2-wordLength+1)]:
+			for word in [seqstr2[i:i+wordLength] for i in range(self.len2-wordLength+1)]:
 				if word in self.worddict2:
 					self.worddict2[word]+=1
 				else:

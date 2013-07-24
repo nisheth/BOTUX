@@ -13,23 +13,30 @@ def percentile(N, P):
 def geomMean(a,b):
 	return math.sqrt(a*b)
 
-def getBestOtu(otus,seqObj,thresholdScore):
+def getBestOtu(otus,seqObj,thresholdScore,thresholdScore2):
 	bestScore=0
+	bestScore2=0
 	bests=0
 	bests2=0
 	bestOTU=-1
 	for otuIndex in range(len(otus)):
-		s,s2=otus[otuIndex].getSeqScore(seqObj)
+		s,s2=otus[otuIndex].getSeqScore(seqObj,thresholdScore)
 		score=0
+		product=0
 		if s2==0:
 			score=s
+			if score > thresholdScore and score > bestScore:
+				bestScore=score
+				bests=s
+				bests2=s2
+				bestOTU=otuIndex
 		else:
-			score=geomMean(s,s2)
-		if score > thresholdScore and score > bestScore:
-			bestScore=score
-			bests=s
-			bests2=s2
-			bestOTU=otuIndex
+			product=s*s2
+			if product > thresholdScore2 and product > bestScore2:
+				bestScore2=product
+				bests=s
+				bests2=s2
+				bestOTU=otuIndex
 	return bests,bests2,bestOTU
 		
 
@@ -40,20 +47,23 @@ def main():
 	
 	Author: 	Vishal N Koparde, Ph. D. 
 	Created:	130315
-	Modified:	130320""",
-	version="1.0")
+	Modified:	130330""",
+	version="3.0")
 	parser.add_argument('-fasta',help='input fasta file',dest='fasta',required=False,metavar="<in.fasta>")
 	parser.add_argument('-fastq',help='input fastq file(read1)',dest='fastq1',required=False,metavar="<read1.fastq>")
 	parser.add_argument('-2',help='input fastq file(read2)',dest='fastq2',required=False,metavar="<read2.fastq>")
 	parser.add_argument('-wl',help='word lenth (default 8)',dest='wl',required=False,metavar="<8>",type=int,default=8)
-	parser.add_argument('-otuFasta',help='output fasta file containing OTU seeds (default OTUs.fasta)',dest='otuFasta',required=False,metavar="<OTUs.fasta>")
+	parser.add_argument('-project',help='project name .. prefix used to name output files',dest='proj',required=True,metavar="<P1>")
 	parser.add_argument('-loadModel',help='load OTU model from python pickle',dest='inModel',required=False,metavar="<inModel.pkl>")
-	parser.add_argument('-saveModel',help='save OTU model as python pickle',dest='outModel',required=False,metavar="<outModel.pkl>")
-	parser.add_argument('-ptl',help='percentile trimming length',dest='ptl',required=False,metavar="<0.9>",default=0.9,type=float)
-	parser.add_argument('-pa',help='print detailed assignments',dest='prnDetailedAssignments',required=False,metavar="<OTU_assignments.txt>")
-	parser.add_argument('-pp',help='print profile',dest='prnProfile',required=False,metavar="<OTU_profiles.txt>")
-	parser.add_argument('-t',help='threshold score .. advanced usage',dest='thresholdScore',required=False,default=0.75,metavar="<0.75>",type=float)
+	parser.add_argument('-ptl',help='percentile trimming length',dest='ptl',required=False,metavar="<0.75>",default=0.75,type=float)
+	parser.add_argument('-t',help='threshold score .. advanced usage',dest='thresholdScore',required=False,default=0.65,metavar="<0.65>",type=float)
 	args=vars(parser.parse_args())
+
+        args['otuFasta']=args['proj']+"_OTUs.fasta"
+        args['prnDetailedAssignments']=args['proj']+"_assignments.txt"
+        args['prnProfile']=args['proj']+"_profiles.txt"
+        args['outModel']=args['proj']+"_model.pkl"
+	args['thresholdScore2']=args['thresholdScore']*args['thresholdScore']
 	
 	fasta=0
 	fastq=0
@@ -170,7 +180,7 @@ def main():
 		if count in p:
 			q=(p.index(count)+1)*10
 			print str(q)+"% sequences processed .. "+str(len(otus))+" distinct OTUs created."
-		bestScore,bestScore2,bestOTU=getBestOtu(otus,s,args['thresholdScore'])
+		bestScore,bestScore2,bestOTU=getBestOtu(otus,s,args['thresholdScore'],args['thresholdScore2'])
 		#print "count:"+str(count)+" otus:"+str(len(otus))+" bestScore:"+str(bestScore)
 		if bestOTU==-1:
 			otus.append(BOTUX.Otu(s))

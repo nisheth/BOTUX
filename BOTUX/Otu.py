@@ -30,13 +30,15 @@ class Otu:
 	    self.scores2=[]
 	self.sumOfAllFreq=sum(self.worddict.values())
 	self.sumOfAllFreq2=sum(self.worddict2.values())
-    def getSeqScore(self,seqObj):
+    def getSeqScore(self,seqObj,thresholdScore):
         score=0
         score2=0
         for w,f in seqObj.worddict.iteritems():
             if w in self.worddict:
                 score += (self.worddict[w] * f * 1.0 / self.sumOfAllFreq)
         score = score * self.seedLen / seqObj.len
+	if score < thresholdScore:
+	    return score,score2
 	if self.pe==1:
 	    for w,f in seqObj.worddict2.iteritems():
 		if w in self.worddict2:
