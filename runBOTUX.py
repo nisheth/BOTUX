@@ -56,7 +56,7 @@ def main():
 	parser.add_argument('-project',help='project name .. prefix used to name output files',dest='proj',required=True,metavar="<P1>")
 	parser.add_argument('-loadModel',help='load OTU model from python pickle',dest='inModel',required=False,metavar="<inModel.pkl>")
 	parser.add_argument('-ptl',help='percentile trimming length',dest='ptl',required=False,metavar="<0.75>",default=0.75,type=float)
-	parser.add_argument('-t',help='threshold score .. advanced usage',dest='thresholdScore',required=False,default=0.65,metavar="<0.65>",type=float)
+	parser.add_argument('-t',help='threshold score .. advanced usage',dest='thresholdScore',required=False,default=0.75,metavar="<0.75>",type=float)
 	args=vars(parser.parse_args())
 
         args['otuFasta']=args['proj']+"_OTUs.fasta"
