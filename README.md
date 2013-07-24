@@ -11,14 +11,14 @@ BOTUX: Bayesian-like OTU eXaminer
 	Modified:	130330
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -v, --version         show program's version number and exit
-  -fasta <in.fasta>     input fasta file
-  -fastq <read1.fastq>  input fastq file(read1)
-  -2 <read2.fastq>      input fastq file(read2)
-  -wl <8>               word lenth (default 8)
-  -project <P1>         project name .. prefix used to name output files
+  -h, --help            show this help message and exit  
+  -v, --version         show program's version number and exit  
+  -fasta <in.fasta>     input fasta file  
+  -fastq <read1.fastq>  input fastq file(read1)  
+  -2 <read2.fastq>      input fastq file(read2)  
+  -wl <8>               word lenth (default 8)  
+  -project <P1>         project name .. prefix used to name output files  
   -loadModel <inModel.pkl>
-                        load OTU model from python pickle
-  -ptl <0.75>           percentile trimming length
-  -t <0.75>             threshold score .. advanced usage
+                        load OTU model from python pickle  
+  -ptl <0.75>           percentile trimming length  
+  -t <0.75>             threshold score .. advanced usage  
