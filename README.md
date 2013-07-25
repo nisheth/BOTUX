@@ -1,5 +1,14 @@
 BOTUX
 =====
+
+Prerequisites:
+-----
+ Python version 2.7 (version 3.0 or greater may not work)  
+ Python module HTSeq .. installation instructions:http://www-huber.embl.de/users/anders/HTSeq/doc/install.html  
+
+Usage:
+-----
+
 usage: runBOTUX.py [-h] [-v] [-fasta <in.fasta>] [-fastq <read1.fastq>]
                    [-2 <read2.fastq>] [-wl <8>] -project <P1>
                    [-loadModel <inModel.pkl>] [-ptl <0.75>] [-t <0.75>]
